@@ -26,10 +26,11 @@ public class Employee extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        departmentCode = new javax.swing.JTextField();
-        departmentName = new javax.swing.JTextField();
+        employeeCode = new javax.swing.JTextField();
+        employeeName = new javax.swing.JTextField();
         bNew = new javax.swing.JButton();
         bShow = new javax.swing.JButton();
         bClose = new javax.swing.JButton();
@@ -67,6 +68,7 @@ public class Employee extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Female");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,12 +76,14 @@ public class Employee extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Male");
 
         jLabel3.setText("sex");
 
         jLabel4.setText("department");
 
+        buttonGroup1.add(jRadioButton3);
         jRadioButton3.setText("Undefined");
         jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,8 +108,8 @@ public class Employee extends javax.swing.JFrame {
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(22, 22, 22)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(departmentCode, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                                    .addComponent(departmentName)))
+                                    .addComponent(employeeCode, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                                    .addComponent(employeeName)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -135,11 +139,11 @@ public class Employee extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(departmentCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(employeeCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(departmentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(employeeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton1)
@@ -163,15 +167,16 @@ public class Employee extends javax.swing.JFrame {
 
     private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
         // TODO add your handling code here:
-        departmentCode.setText(null);
-        departmentName.setText(" ");
-        departmentCode.requestFocus();
+        employeeCode.setText(null);
+        employeeName.setText(" ");
+        buttonGroup1.clearSelection();
+        employeeCode.requestFocus();
     }//GEN-LAST:event_bNewActionPerformed
 
     private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
         // TODO add your handling code here:
-        System.out.println("รหัส: "+departmentCode.getText()+"\n"+"ชื่อ: "+departmentName.getText());
-        String ms ="รหัส: "+departmentCode.getText()+"\n"+"ชื่อ: "+departmentName.getText();
+        System.out.println("รหัส: "+employeeCode.getText()+"\n"+"ชื่อ: "+employeeName.getText()+"\n"+"Sex: "+buttonGroup1.toString());
+        String ms ="รหัส: "+employeeCode.getText()+"\n"+"ชื่อ: "+employeeName.getText();
         //JOptionPane.showMessageDialog(this,ms);
 
     }//GEN-LAST:event_bShowActionPerformed
@@ -228,8 +233,9 @@ public class Employee extends javax.swing.JFrame {
     private javax.swing.JButton bClose;
     private javax.swing.JButton bNew;
     private javax.swing.JButton bShow;
-    private javax.swing.JTextField departmentCode;
-    private javax.swing.JTextField departmentName;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField employeeCode;
+    private javax.swing.JTextField employeeName;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
