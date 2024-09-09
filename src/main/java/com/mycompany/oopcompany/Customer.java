@@ -16,22 +16,22 @@ import javax.swing.UIManager;
 
 /**
  *
- * @author com4936
+ * @author WONG-PC
  */
-public class Department extends javax.swing.JFrame {
+public class Customer extends javax.swing.JFrame {
 
     /**
-     * Creates new form OPCompany
+     * Creates new form Customer
      */
     Connection conn;
     Statement statement;
 
-    public Department() {
+    public Customer() {
         setFont();
         connectDB();
         initComponents();
     }
-    
+
     public void connectDB() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -41,7 +41,7 @@ public class Department extends javax.swing.JFrame {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop2567", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop2567", "root", "12345678");
             statement = conn.createStatement();
         } catch (SQLException ex) {
 //            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,18 +72,31 @@ public class Department extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bShow = new javax.swing.JButton();
+        customerCode = new javax.swing.JTextField();
+        customerName = new javax.swing.JTextField();
         bClose = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         bNew = new javax.swing.JButton();
-        bShow = new javax.swing.JButton();
-        departmentCode = new javax.swing.JTextField();
-        departmentName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        address = new javax.swing.JTextField();
         bInsert = new javax.swing.JButton();
         bUpdate = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        bShow.setText("Show");
+        bShow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bShowActionPerformed(evt);
+            }
+        });
+
+        customerCode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        customerName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         bClose.setText("Close");
         bClose.addActionListener(new java.awt.event.ActionListener() {
@@ -106,16 +119,10 @@ public class Department extends javax.swing.JFrame {
             }
         });
 
-        bShow.setText("Show");
-        bShow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bShowActionPerformed(evt);
-            }
-        });
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("ที่อยู่");
 
-        departmentCode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        departmentName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        address.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         bInsert.setText("Insert");
         bInsert.addActionListener(new java.awt.event.ActionListener() {
@@ -146,29 +153,31 @@ public class Department extends javax.swing.JFrame {
                 .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(bNew)
                         .addGap(18, 18, 18)
-                        .addComponent(departmentCode, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(25, 25, 25)
-                            .addComponent(departmentName, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(bNew)
-                            .addGap(18, 18, 18)
-                            .addComponent(bShow)
-                            .addGap(18, 18, 18)
-                            .addComponent(bInsert)
-                            .addGap(18, 18, 18)
-                            .addComponent(bUpdate)
-                            .addGap(18, 18, 18)
-                            .addComponent(bDelete)
-                            .addGap(42, 42, 42)
-                            .addComponent(bClose)
-                            .addGap(28, 28, 28)))))
+                        .addComponent(bShow)
+                        .addGap(18, 18, 18)
+                        .addComponent(bInsert)
+                        .addGap(18, 18, 18)
+                        .addComponent(bUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(bDelete)
+                        .addGap(31, 31, 31)
+                        .addComponent(bClose))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(27, 27, 27)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(customerName, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(customerCode, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel1))
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,26 +185,33 @@ public class Department extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(departmentCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                    .addComponent(customerCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(departmentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bInsert)
-                        .addComponent(bUpdate)
-                        .addComponent(bDelete)
-                        .addComponent(bClose))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bNew)
-                        .addComponent(bShow)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(customerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bNew)
+                    .addComponent(bShow)
+                    .addComponent(bInsert)
+                    .addComponent(bUpdate)
+                    .addComponent(bDelete)
+                    .addComponent(bClose))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
+        String ms = customerCode.getText() + "\n" + customerName.getText() + "\n" + address.getText();
+        JOptionPane.showMessageDialog(this, ms);
+    }//GEN-LAST:event_bShowActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
         if (JOptionPane.showConfirmDialog(this, "ปิดหรือไม่ ?", "ยืนยัน", 0) == 0) {
@@ -204,18 +220,23 @@ public class Department extends javax.swing.JFrame {
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
-        departmentCode.setText(null);
-        departmentName.setText(null);
-        departmentCode.requestFocus();
+        customerCode.setText(null);
+        customerName.setText(null);
+        address.setText(null);
+        customerCode.requestFocus();
     }//GEN-LAST:event_bNewActionPerformed
 
-    private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
-        String ms ="รหัส: "+ departmentCode.getText() + "\n" + "ชื่อ: "+departmentName.getText();
-        JOptionPane.showMessageDialog(this, ms);
-    }//GEN-LAST:event_bShowActionPerformed
+    private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
+        String sql = "insert into customer(customerCode,customerName,address) values ('"+ customerCode.getText() +"','"+ customerName.getText() +"','"+ address.getText() +"')";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bInsertActionPerformed
 
     private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
-        String sql = "update department set departmentName = '"+ departmentName.getText() +"' where departmentCode = '"+ departmentCode.getText() +"'";
+        String sql = "update customer set customerName = '"+ customerName.getText() +"', address = '"+ address.getText() +"' where customerCode = '"+ customerCode.getText() +"'";
         try {
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
@@ -224,22 +245,13 @@ public class Department extends javax.swing.JFrame {
     }//GEN-LAST:event_bUpdateActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        String sql = "delete from department where departmentCode = '"+ departmentCode.getText() +"'";
+        String sql = "delete from customer where customerCode = '"+ customerCode.getText() +"'";
         try {
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bDeleteActionPerformed
-
-    private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
-        String sql = "insert into department(departmentCode,departmentName) values ('"+ departmentCode.getText() +"','"+ departmentName.getText() +"')";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bInsertActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,35 +270,36 @@ public class Department extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Department.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Department.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Department.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Department.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Department().setVisible(true);
+                new Customer().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField address;
     private javax.swing.JButton bClose;
     private javax.swing.JButton bDelete;
     private javax.swing.JButton bInsert;
     private javax.swing.JButton bNew;
     private javax.swing.JButton bShow;
     private javax.swing.JButton bUpdate;
-    private javax.swing.JTextField departmentCode;
-    private javax.swing.JTextField departmentName;
+    private javax.swing.JTextField customerCode;
+    private javax.swing.JTextField customerName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

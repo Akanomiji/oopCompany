@@ -4,13 +4,16 @@
  */
 package com.mycompany.oopcompany;
 
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -20,46 +23,45 @@ public class Employee extends javax.swing.JFrame {
 
     /**
      * Creates new form Employee
-     */Connection conn;
+     */
+    Connection conn;
     Statement statement;
     String sex = "";
-    public Employee() throws SQLException {
-        initComponents();
+
+    public Employee() {
+        setFont();
         connectDB();
+        initComponents();
     }
-    
-    public void connectDB(){
+
+    public void connectDB() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
 //            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Load driver error");
         }
+
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/oopCompany", "root", "12345678");
-            statement = (Statement) conn.createStatement();
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop2567", "root", "12345678");
+            statement = conn.createStatement();
         } catch (SQLException ex) {
 //            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("connect database error");
         }
-        /*
-        try {
-            Class.forName("com.mysql.jbdc.Driver");
-            
-        }catch (ClassNotFoundException ex){
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE,null,ex);
-        }
-        conn=DriverManager.getConnection("jdbc:mysql://localhost:3307/oopCompany","root","12345678");
-      */          
     }
-    
-     public void sexSelect() {
-        if (sexM.isSelected()) {
-            sex = "M";
-        } else if (sexF.isSelected()) {
-            sex = "F";
-        } else if (sexN.isSelected()) {
-            sex = "U";
+
+    public void setFont() {
+        try {
+            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+            // กำหนดฟอนต์พื้นฐานสำหรับแอปพลิเคชันทั้งหมด
+            Font newFont = new Font("Tahoma", Font.PLAIN, 14);
+//            UIManager.put("Button.font", newFont);
+            UIManager.put("Label.font", newFont);
+//            UIManager.put("TextField.font", newFont);
+            UIManager.put("JOptionPane.font", newFont);
+        } catch (Exception ex) {
         }
     }
 
@@ -73,30 +75,45 @@ public class Employee extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         employeeCode = new javax.swing.JTextField();
         employeeName = new javax.swing.JTextField();
+        bClose = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         bNew = new javax.swing.JButton();
         bShow = new javax.swing.JButton();
-        bClose = new javax.swing.JButton();
-        sexF = new javax.swing.JRadioButton();
-        sexM = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        sexN = new javax.swing.JRadioButton();
         department = new javax.swing.JComboBox<>();
+        sexM = new javax.swing.JRadioButton();
+        sexF = new javax.swing.JRadioButton();
+        sexN = new javax.swing.JRadioButton();
+        jLabel5 = new javax.swing.JLabel();
+        salary = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        bInsert = new javax.swing.JButton();
         bUpdate = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
-        bInsert = new javax.swing.JButton();
-        salary = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("ชื่อ");
+        employeeCode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jLabel2.setText("รหัส");
+        employeeName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        bClose.setText("Close");
+        bClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCloseActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("รหัส");
+        jLabel1.setName(""); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("ชื่อ");
 
         bNew.setText("New");
         bNew.addActionListener(new java.awt.event.ActionListener() {
@@ -112,37 +129,41 @@ public class Employee extends javax.swing.JFrame {
             }
         });
 
-        bClose.setText("Close");
-        bClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCloseActionPerformed(evt);
-            }
-        });
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("เพศ");
 
-        buttonGroup1.add(sexF);
-        sexF.setText("Female");
-        sexF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sexFActionPerformed(evt);
-            }
-        });
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("แผนก");
+
+        department.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        department.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ผู้จัดการทั่วไป", "ผู้จัดการ", "ผู้จัดการฝ่ายขาย", "ผู้จัดการฝ่ายบุคคล" }));
 
         buttonGroup1.add(sexM);
-        sexM.setText("Male");
+        sexM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sexM.setText("ชาย");
 
-        jLabel3.setText("sex");
-
-        jLabel4.setText("department");
+        buttonGroup1.add(sexF);
+        sexF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sexF.setText("หญิง");
 
         buttonGroup1.add(sexN);
-        sexN.setText("Undefined");
-        sexN.addActionListener(new java.awt.event.ActionListener() {
+        sexN.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sexN.setText("ไม่ระบุ");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("เงินเดือน");
+
+        salary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setText("บาท");
+
+        bInsert.setText("Insert");
+        bInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sexNActionPerformed(evt);
+                bInsertActionPerformed(evt);
             }
         });
-
-        department.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         bUpdate.setText("Update");
         bUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -158,114 +179,123 @@ public class Employee extends javax.swing.JFrame {
             }
         });
 
-        bInsert.setText("Insert");
-        bInsert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bInsertActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("เงินเดือน");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(bNew)
-                .addGap(18, 18, 18)
-                .addComponent(bShow)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(22, 22, 22)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(employeeCode)
-                            .addComponent(employeeName, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(employeeName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(sexM)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(sexF)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(sexN))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(salary)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel6)
+                                .addGap(130, 130, 130))
+                            .addComponent(department, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(employeeCode, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bClose)
-                        .addGap(27, 27, 27)
-                        .addComponent(bDelete)
+                        .addComponent(bNew)
+                        .addGap(18, 18, 18)
+                        .addComponent(bShow)
+                        .addGap(18, 18, 18)
+                        .addComponent(bInsert)
                         .addGap(18, 18, 18)
                         .addComponent(bUpdate)
                         .addGap(18, 18, 18)
-                        .addComponent(bInsert)))
-                .addContainerGap(40, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sexF)
-                        .addGap(18, 18, 18)
-                        .addComponent(sexM, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(sexN))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(salary)
-                            .addComponent(department, 0, 146, Short.MAX_VALUE))))
-                .addGap(152, 152, 152))
+                        .addComponent(bDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                        .addComponent(bClose)
+                        .addGap(56, 56, 56))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
                     .addComponent(employeeCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
                     .addComponent(employeeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sexF)
-                    .addComponent(sexM)
                     .addComponent(jLabel3)
+                    .addComponent(sexM)
+                    .addComponent(sexF)
                     .addComponent(sexN))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(department, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
                     .addComponent(salary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bNew)
-                    .addComponent(bShow)
-                    .addComponent(bClose)
-                    .addComponent(bDelete)
-                    .addComponent(bUpdate)
-                    .addComponent(bInsert))
-                .addGap(42, 42, 42))
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bInsert)
+                        .addComponent(bUpdate)
+                        .addComponent(bDelete))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bNew)
+                        .addComponent(bShow)
+                        .addComponent(bClose)))
+                .addGap(28, 28, 28))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void sexSelect() {
+        if (sexM.isSelected()) {
+            sex = "M";
+        } else if (sexF.isSelected()) {
+            sex = "F";
+        } else if (sexN.isSelected()) {
+            sex = "U";
+        }
+    }
+
+    private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
+        if (JOptionPane.showConfirmDialog(this, "ปิดหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_bCloseActionPerformed
+
     private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
-        // TODO add your handling code here:
         employeeCode.setText(null);
-        employeeName.setText(" ");
-        buttonGroup1.clearSelection();
+        employeeName.setText(null);
+        sexM.setSelected(true);
+        sexF.setSelected(false);
+        sexN.setSelected(false);
+        department.setSelectedIndex(0);
+        salary.setText(null);
         employeeCode.requestFocus();
     }//GEN-LAST:event_bNewActionPerformed
 
     private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
-       String sex1 = "";
+        String sex1 = "";
         if (sexM.isSelected()) {
             sex1 = sexM.getText();
         } else if (sexF.isSelected()) {
@@ -275,29 +305,19 @@ public class Employee extends javax.swing.JFrame {
         }
         String ms = employeeCode.getText() + "\n" + employeeName.getText() + "\n" + sex1 + "\n" + department.getSelectedItem() + "\n" + salary.getText();
         JOptionPane.showMessageDialog(this, ms);
-
     }//GEN-LAST:event_bShowActionPerformed
 
-    private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
-        if (JOptionPane.showConfirmDialog(this, "ปิดหรือไม่ ?", "ยืนยัน", 0) == 0) {
-            this.dispose();
+    private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
+        sexSelect();
+        String sql = "insert into employee(employeeCode,employeeName,sex,departmentCode,salary) values ('" + employeeCode.getText() + "','" + employeeName.getText() + "','" + sex + "','" + department.getSelectedIndex() + 1 + "','" + salary.getText() + "')";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_bCloseActionPerformed
-
-    private void sexFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sexFActionPerformed
-
-    private void sexNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexNActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sexNActionPerformed
-
-    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bDeleteActionPerformed
+    }//GEN-LAST:event_bInsertActionPerformed
 
     private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
-        // TODO add your handling code here:
         sexSelect();
         String sql = "update employee set employeeName = '" + employeeName.getText() + "', sex = '" + sex + "' ,departmentCode = '" + department.getSelectedIndex() + 1 + "',salary = '" + salary.getText() + "' where employeeCode = '" + employeeCode.getText() + "'";
         try {
@@ -307,9 +327,14 @@ public class Employee extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bUpdateActionPerformed
 
-    private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bInsertActionPerformed
+    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
+        String sql = "delete from employee where employeeCode = '" + employeeCode.getText() + "'";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -341,11 +366,7 @@ public class Employee extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new Employee().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new Employee().setVisible(true);
             }
         });
     }
@@ -366,6 +387,7 @@ public class Employee extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField salary;
     private javax.swing.JRadioButton sexF;
     private javax.swing.JRadioButton sexM;

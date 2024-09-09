@@ -8,9 +8,9 @@ package com.mycompany.oopcompany;
  *
  * @author com4936
  */
-public class OopCompany {
+public class oopCompany {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        System.out.println("Hello World!ฟหกหฟก");
     }
 }
