@@ -4,11 +4,14 @@
  */
 package com.mycompany.oopcompany;
 
-import com.mysql.cj.xdevapi.Statement;
+
+import java.awt.Event;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -29,11 +32,19 @@ public class Department extends javax.swing.JFrame {
     public Department() {
         initComponents();
         setFont();
+        initComponents();
     }
 
-    public void setFont() {
+     public void setFont() {
         try {
-            UIManager.put("JOptionPane.font", new Font("Angsana New", Font.ITALIC, 16));
+            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+            // กำหนดฟอนต์พื้นฐานสำหรับแอปพลิเคชันทั้งหมด
+            Font newFont = new Font("Tahoma", Font.PLAIN, 14);
+//            UIManager.put("Button.font", newFont);
+            UIManager.put("Label.font", newFont);
+//            UIManager.put("TextField.font", newFont);
+            UIManager.put("JOptionPane.font", newFont);
         } catch (Exception ex) {
         }
     }
@@ -47,12 +58,27 @@ public class Department extends javax.swing.JFrame {
     
     public void connectDB() throws SQLException{
         try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Load driver error");
+        }
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/oopCompany", "root", "12345678");
+            statement = (Statement) conn.createStatement();
+        } catch (SQLException ex) {
+//            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("connect database error");
+        }
+        /*
+        try {
             Class.forName("com.mysql.jbdc.Driver");
+            
         }catch (ClassNotFoundException ex){
             Logger.getLogger(Department.class.getName()).log(Level.SEVERE,null,ex);
         }
-        conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/oopCompany","root","12345678");
-                
+        conn=DriverManager.getConnection("jdbc:mysql://localhost:3307/oopCompany","root","12345678");
+      */          
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -66,12 +92,24 @@ public class Department extends javax.swing.JFrame {
         bClose = new javax.swing.JButton();
         bUpdate = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
+        bInsert = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("ชื่อ");
 
         jLabel2.setText("รหัส");
+
+        departmentCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                departmentCodeActionPerformed(evt);
+            }
+        });
+        departmentCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                departmentCodeKeyPressed(evt);
+            }
+        });
 
         bNew.setText("New");
         bNew.addActionListener(new java.awt.event.ActionListener() {
@@ -102,32 +140,50 @@ public class Department extends javax.swing.JFrame {
         });
 
         bDelete.setText("Delete");
+        bDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteActionPerformed(evt);
+            }
+        });
+
+        bInsert.setText("Insert");
+        bInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bInsertActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bNew)
-                        .addGap(18, 18, 18)
-                        .addComponent(bShow)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bClose)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                        .addComponent(bDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bUpdate))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(departmentCode, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .addComponent(departmentName))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bNew)
+                                .addGap(18, 18, 18)
+                                .addComponent(bShow)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(bClose)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                                .addComponent(bDelete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bUpdate))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(departmentCode, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                                    .addComponent(departmentName)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(bInsert)
+                        .addGap(341, 341, 341)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -148,18 +204,24 @@ public class Department extends javax.swing.JFrame {
                     .addComponent(bClose)
                     .addComponent(bUpdate)
                     .addComponent(bDelete))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bInsert)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
     private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
         // TODO add your handling code here:
-        System.out.println("รหัส: " + departmentCode.getText() + "\n" + "ชื่อ: " + departmentName.getText());
-        String ms = "รหัส: " + departmentCode.getText() + "\n" + "ชื่อ: " + departmentName.getText();
+        
+        System.out.println("รหัส:" + departmentCode.getText() + "\n" + "ชื่อ:" + departmentName.getText());
+        String ms = "รหัส:" + departmentCode.getText() + "\n" + "ชื่อ:" + departmentName.getText();
         JOptionPane.showMessageDialog(this, ms);
 
+       
     }//GEN-LAST:event_bShowActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
@@ -174,23 +236,65 @@ public class Department extends javax.swing.JFrame {
     private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
         // TODO add your handling code here:
         departmentCode.setText(null);
-        departmentName.setText(" ");
+        departmentName.setText(null);
         departmentCode.requestFocus();
     }//GEN-LAST:event_bNewActionPerformed
 
     private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
-        // TODO add your handling code here:
-        String sql="update department set departmentName='AA'where departmentCode='01'";
-        try{
-            
-        }catch(){
-            
+       
+        String sql = "update department set departmentName = '"+ departmentName.getText() +"' where departmentCode = '"+ departmentCode.getText() +"'";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_bUpdateActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
+        // TODO add your handling code here:
+        String sql = "insert into department(departmentCode,departmentName) values ('"+ departmentCode.getText() +"','"+ departmentName.getText() +"')";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bInsertActionPerformed
+
+    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
+        // TODO add your handling code here:
+        String sql = "delete from department where departmentCode = '"+ departmentCode.getText() +"'";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bDeleteActionPerformed
+
+    private void departmentCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departmentCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_departmentCodeActionPerformed
+
+    private void departmentCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_departmentCodeKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== Event.ENTER) {
+            String sql="select departmentName from department where departmentCode=" + departmentCode.getText();
+            try{
+            ResultSet rs = statement.executeQuery(sql);
+            
+            while(rs.next()){
+                departmentName.setText(rs.getString("departmentName"));
+            }
+            rs.close();
+        }catch (SQLException ex){
+            Logger.getLogger(Department.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        }
+        
+    }//GEN-LAST:event_departmentCodeKeyPressed
+
+    
+     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -226,6 +330,7 @@ public class Department extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
     private javax.swing.JButton bDelete;
+    private javax.swing.JButton bInsert;
     private javax.swing.JButton bNew;
     private javax.swing.JButton bShow;
     private javax.swing.JButton bUpdate;

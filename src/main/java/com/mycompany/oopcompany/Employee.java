@@ -4,6 +4,14 @@
  */
 package com.mycompany.oopcompany;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author com4936
@@ -12,9 +20,47 @@ public class Employee extends javax.swing.JFrame {
 
     /**
      * Creates new form Employee
-     */
-    public Employee() {
+     */Connection conn;
+    Statement statement;
+    String sex = "";
+    public Employee() throws SQLException {
         initComponents();
+        connectDB();
+    }
+    
+    public void connectDB(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Load driver error");
+        }
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/oopCompany", "root", "12345678");
+            statement = (Statement) conn.createStatement();
+        } catch (SQLException ex) {
+//            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("connect database error");
+        }
+        /*
+        try {
+            Class.forName("com.mysql.jbdc.Driver");
+            
+        }catch (ClassNotFoundException ex){
+            Logger.getLogger(Department.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        conn=DriverManager.getConnection("jdbc:mysql://localhost:3307/oopCompany","root","12345678");
+      */          
+    }
+    
+     public void sexSelect() {
+        if (sexM.isSelected()) {
+            sex = "M";
+        } else if (sexF.isSelected()) {
+            sex = "F";
+        } else if (sexN.isSelected()) {
+            sex = "U";
+        }
     }
 
     /**
@@ -34,12 +80,17 @@ public class Employee extends javax.swing.JFrame {
         bNew = new javax.swing.JButton();
         bShow = new javax.swing.JButton();
         bClose = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        sexF = new javax.swing.JRadioButton();
+        sexM = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        sexN = new javax.swing.JRadioButton();
+        department = new javax.swing.JComboBox<>();
+        bUpdate = new javax.swing.JButton();
+        bDelete = new javax.swing.JButton();
+        bInsert = new javax.swing.JButton();
+        salary = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,70 +119,103 @@ public class Employee extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Female");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(sexF);
+        sexF.setText("Female");
+        sexF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                sexFActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Male");
+        buttonGroup1.add(sexM);
+        sexM.setText("Male");
 
         jLabel3.setText("sex");
 
         jLabel4.setText("department");
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Undefined");
-        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(sexN);
+        sexN.setText("Undefined");
+        sexN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton3ActionPerformed(evt);
+                sexNActionPerformed(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        department.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        bUpdate.setText("Update");
+        bUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bUpdateActionPerformed(evt);
+            }
+        });
+
+        bDelete.setText("Delete");
+        bDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteActionPerformed(evt);
+            }
+        });
+
+        bInsert.setText("Insert");
+        bInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bInsertActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("เงินเดือน");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(bNew)
+                .addGap(18, 18, 18)
+                .addComponent(bShow)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(employeeCode, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                                    .addComponent(employeeName)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(bNew)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(bShow))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jRadioButton1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(bClose)
-                                    .addComponent(jRadioButton3)))))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(employeeCode)
+                            .addComponent(employeeName, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel4)
+                        .addComponent(bClose)
+                        .addGap(27, 27, 27)
+                        .addComponent(bDelete)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                        .addComponent(bUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(bInsert)))
+                .addContainerGap(40, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sexF)
+                        .addGap(18, 18, 18)
+                        .addComponent(sexM, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(sexN))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(salary)
+                            .addComponent(department, 0, 146, Short.MAX_VALUE))))
+                .addGap(152, 152, 152))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,19 +230,26 @@ public class Employee extends javax.swing.JFrame {
                     .addComponent(employeeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
+                    .addComponent(sexF)
+                    .addComponent(sexM)
                     .addComponent(jLabel3)
-                    .addComponent(jRadioButton3))
-                .addGap(25, 25, 25)
+                    .addComponent(sexN))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                    .addComponent(department, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(salary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bNew)
                     .addComponent(bShow)
-                    .addComponent(bClose))
+                    .addComponent(bClose)
+                    .addComponent(bDelete)
+                    .addComponent(bUpdate)
+                    .addComponent(bInsert))
                 .addGap(42, 42, 42))
         );
 
@@ -174,25 +265,51 @@ public class Employee extends javax.swing.JFrame {
     }//GEN-LAST:event_bNewActionPerformed
 
     private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
-        // TODO add your handling code here:
-        System.out.println("รหัส: "+employeeCode.getText()+"\n"+"ชื่อ: "+employeeName.getText()+"\n"+"Sex: "+buttonGroup1.toString());
-        String ms ="รหัส: "+employeeCode.getText()+"\n"+"ชื่อ: "+employeeName.getText();
-        //JOptionPane.showMessageDialog(this,ms);
+       String sex1 = "";
+        if (sexM.isSelected()) {
+            sex1 = sexM.getText();
+        } else if (sexF.isSelected()) {
+            sex1 = sexF.getText();
+        } else if (sexN.isSelected()) {
+            sex1 = sexN.getText();
+        }
+        String ms = employeeCode.getText() + "\n" + employeeName.getText() + "\n" + sex1 + "\n" + department.getSelectedItem() + "\n" + salary.getText();
+        JOptionPane.showMessageDialog(this, ms);
 
     }//GEN-LAST:event_bShowActionPerformed
 
     private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
+        if (JOptionPane.showConfirmDialog(this, "ปิดหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            this.dispose();
+        }
     }//GEN-LAST:event_bCloseActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void sexFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_sexFActionPerformed
 
-    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+    private void sexNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexNActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
+    }//GEN-LAST:event_sexNActionPerformed
+
+    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bDeleteActionPerformed
+
+    private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
+        // TODO add your handling code here:
+        sexSelect();
+        String sql = "update employee set employeeName = '" + employeeName.getText() + "', sex = '" + sex + "' ,departmentCode = '" + department.getSelectedIndex() + 1 + "',salary = '" + salary.getText() + "' where employeeCode = '" + employeeCode.getText() + "'";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bUpdateActionPerformed
+
+    private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bInsertActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,25 +341,34 @@ public class Employee extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Employee().setVisible(true);
+                try {
+                    new Employee().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
+    private javax.swing.JButton bDelete;
+    private javax.swing.JButton bInsert;
     private javax.swing.JButton bNew;
     private javax.swing.JButton bShow;
+    private javax.swing.JButton bUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> department;
     private javax.swing.JTextField employeeCode;
     private javax.swing.JTextField employeeName;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField salary;
+    private javax.swing.JRadioButton sexF;
+    private javax.swing.JRadioButton sexM;
+    private javax.swing.JRadioButton sexN;
     // End of variables declaration//GEN-END:variables
 }

@@ -41,6 +41,9 @@ public class Item extends javax.swing.JFrame {
         qty = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         amount = new javax.swing.JTextField();
+        bUpdate = new javax.swing.JButton();
+        bDelete = new javax.swing.JButton();
+        bInsert = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,6 +78,12 @@ public class Item extends javax.swing.JFrame {
 
         jLabel5.setText("รวม");
 
+        bUpdate.setText("Update");
+
+        bDelete.setText("Delete");
+
+        bInsert.setText("Insert");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,6 +91,12 @@ public class Item extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bDelete)
+                        .addGap(18, 18, 18)
+                        .addComponent(bUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(bInsert))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bNew)
                         .addGap(18, 18, 18)
@@ -109,12 +124,12 @@ public class Item extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
                         .addComponent(qty, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(itemCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -134,12 +149,17 @@ public class Item extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bNew)
                     .addComponent(bShow)
                     .addComponent(bClose))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bDelete)
+                    .addComponent(bUpdate)
+                    .addComponent(bInsert))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,8 +226,11 @@ public class Item extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField amount;
     private javax.swing.JButton bClose;
+    private javax.swing.JButton bDelete;
+    private javax.swing.JButton bInsert;
     private javax.swing.JButton bNew;
     private javax.swing.JButton bShow;
+    private javax.swing.JButton bUpdate;
     private javax.swing.JTextField itemCode;
     private javax.swing.JTextField itemName;
     private javax.swing.JLabel jLabel1;

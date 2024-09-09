@@ -33,6 +33,9 @@ public class itemType extends javax.swing.JFrame {
         bNew = new javax.swing.JButton();
         bShow = new javax.swing.JButton();
         bClose = new javax.swing.JButton();
+        bUpdate = new javax.swing.JButton();
+        bDelete = new javax.swing.JButton();
+        bInsert = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,33 +64,45 @@ public class itemType extends javax.swing.JFrame {
             }
         });
 
+        bUpdate.setText("Update");
+
+        bDelete.setText("Delete");
+
+        bInsert.setText("Insert");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(67, 67, 67)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bNew)
-                        .addGap(18, 18, 18)
-                        .addComponent(bShow)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bClose))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(typeCode, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .addComponent(typeName))))
-                .addContainerGap(87, Short.MAX_VALUE))
+                            .addComponent(typeCode)
+                            .addComponent(typeName, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bNew)
+                        .addGap(18, 18, 18)
+                        .addComponent(bShow)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bClose)
+                        .addGap(18, 18, 18)
+                        .addComponent(bDelete)))
+                .addGap(18, 18, 18)
+                .addComponent(bUpdate)
+                .addGap(18, 18, 18)
+                .addComponent(bInsert)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(typeCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -95,11 +110,14 @@ public class itemType extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(typeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bNew)
                     .addComponent(bShow)
-                    .addComponent(bClose))
+                    .addComponent(bClose)
+                    .addComponent(bDelete)
+                    .addComponent(bUpdate)
+                    .addComponent(bInsert))
                 .addContainerGap(109, Short.MAX_VALUE))
         );
 
@@ -163,8 +181,11 @@ public class itemType extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClose;
+    private javax.swing.JButton bDelete;
+    private javax.swing.JButton bInsert;
     private javax.swing.JButton bNew;
     private javax.swing.JButton bShow;
+    private javax.swing.JButton bUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField typeCode;
