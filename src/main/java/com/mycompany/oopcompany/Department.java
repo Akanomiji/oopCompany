@@ -4,15 +4,18 @@
  */
 package com.mycompany.oopcompany;
 
+import java.awt.Event;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,10 +31,13 @@ public class Department extends javax.swing.JFrame {
 
     public Department() {
         setFont();
+        
         connectDB();
+        getDepartmentData();
         initComponents();
+        
     }
-    
+
     public void connectDB() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -41,7 +47,7 @@ public class Department extends javax.swing.JFrame {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop2567", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/oop2567", "root", " ");
             statement = conn.createStatement();
         } catch (SQLException ex) {
 //            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,6 +88,9 @@ public class Department extends javax.swing.JFrame {
         bInsert = new javax.swing.JButton();
         bUpdate = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,6 +123,11 @@ public class Department extends javax.swing.JFrame {
         });
 
         departmentCode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        departmentCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                departmentCodeKeyPressed(evt);
+            }
+        });
 
         departmentName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -138,37 +152,60 @@ public class Department extends javax.swing.JFrame {
             }
         });
 
+        table1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Code", "Name"
+            }
+        ));
+        jScrollPane1.setViewportView(table1);
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(bNew)
+                .addGap(18, 18, 18)
+                .addComponent(bShow)
+                .addGap(18, 18, 18)
+                .addComponent(bInsert)
+                .addGap(18, 18, 18)
+                .addComponent(bUpdate)
+                .addGap(18, 18, 18)
+                .addComponent(bDelete)
+                .addGap(42, 42, 42)
+                .addComponent(bClose)
+                .addGap(0, 201, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(departmentCode, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(25, 25, 25)
-                            .addComponent(departmentName, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(bNew)
-                            .addGap(18, 18, 18)
-                            .addComponent(bShow)
-                            .addGap(18, 18, 18)
-                            .addComponent(bInsert)
-                            .addGap(18, 18, 18)
-                            .addComponent(bUpdate)
-                            .addGap(18, 18, 18)
-                            .addComponent(bDelete)
-                            .addGap(42, 42, 42)
-                            .addComponent(bClose)
-                            .addGap(28, 28, 28)))))
+                        .addComponent(departmentCode, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(25, 25, 25)
+                        .addComponent(departmentName, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,7 +218,11 @@ public class Department extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(departmentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bInsert)
@@ -191,7 +232,7 @@ public class Department extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bNew)
                         .addComponent(bShow)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(40, 40, 40))
         );
 
         pack();
@@ -203,43 +244,113 @@ public class Department extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bCloseActionPerformed
 
-    private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
+    private void bNew() {
         departmentCode.setText(null);
         departmentName.setText(null);
         departmentCode.requestFocus();
+    }
+
+    private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
+        bNew();
     }//GEN-LAST:event_bNewActionPerformed
 
     private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
-        String ms ="รหัส: "+ departmentCode.getText() + "\n" + "ชื่อ: "+departmentName.getText();
+        String ms = "รหัส: " + departmentCode.getText() + "\n" + "ชื่อ: " + departmentName.getText();
         JOptionPane.showMessageDialog(this, ms);
     }//GEN-LAST:event_bShowActionPerformed
 
     private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
-        String sql = "update department set departmentName = '"+ departmentName.getText() +"' where departmentCode = '"+ departmentCode.getText() +"'";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        if (JOptionPane.showConfirmDialog(this, "เปลี่ยนแปลงหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            String sql = "update department set departmentName = '" + departmentName.getText() + "' where departmentCode = '" + departmentCode.getText() + "'";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_bUpdateActionPerformed
 
-    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        String sql = "delete from department where departmentCode = '"+ departmentCode.getText() +"'";
+    private int searchRoeIndex(String code){
+        for(int i=0;i< table1.getRowCount();i++){
+            if(code == table1.getValueAt(i, 0))
+              return i;
+            
+        }
+        return -1;
+    }
+    private void getDepartmentData() {
+        //((DefaultTableModel)table1.getModel()).setRowCount(0);
+        String sql = "select *from department";
+        departmentName.setText(null);
+        
         try {
-            statement.executeUpdate(sql);
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+//                    departmentName.setText(rs.getString(1));
+                //departmentName.setText(rs.getString("departmentName"));
+                Object[] rowData = {rs.getString("departmentCode"), rs.getShort(2)};
+                ((DefaultTableModel) table1.getModel()).addRow(rowData);
+                //departmentName.setText(rs.getString("departmentName"));
+            }
+            rs.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            departmentName.setText(null);
+            //Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
+        if (JOptionPane.showConfirmDialog(this, "ลบหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            String sql = "delete from department where departmentCode = '" + departmentCode.getText() + "'";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            bNew();
         }
     }//GEN-LAST:event_bDeleteActionPerformed
 
     private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
-        String sql = "insert into department(departmentCode,departmentName) values ('"+ departmentCode.getText() +"','"+ departmentName.getText() +"')";
+        String sql = "insert into department(departmentCode,departmentName) values ('" + departmentCode.getText() + "','" + departmentName.getText() + "')";
         try {
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bInsertActionPerformed
+
+    private void departmentCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_departmentCodeKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == Event.ENTER) {
+            String sql = "select departmentName from department where departmentCode = '" + departmentCode.getText() + "'";
+            departmentName.setText(null);
+            try {
+                ResultSet rs = statement.executeQuery(sql);
+                while (rs.next()) {
+//                    departmentName.setText(rs.getString(1));
+                    departmentName.setText(rs.getString("departmentName"));
+                }
+                rs.close();
+
+            } catch (SQLException ex) {
+                departmentName.setText(null);
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_departmentCodeKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+//        String code = table1.getValueAt(0, 0).toString();
+//        System.out.print(code);
+//        table1.setValueAt("01", 0, 0);
+
+        Object[] rowData = {null, null};
+        ((DefaultTableModel) table1.getModel()).addRow(rowData);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,7 +397,10 @@ public class Department extends javax.swing.JFrame {
     private javax.swing.JButton bUpdate;
     private javax.swing.JTextField departmentCode;
     private javax.swing.JTextField departmentName;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table1;
     // End of variables declaration//GEN-END:variables
 }

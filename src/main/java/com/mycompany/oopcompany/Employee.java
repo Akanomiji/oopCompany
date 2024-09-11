@@ -5,6 +5,7 @@
 package com.mycompany.oopcompany;
 
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -43,7 +44,7 @@ public class Employee extends javax.swing.JFrame {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop2567", "root", "12345678");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/oop2567", "root", "12345678");
             statement = conn.createStatement();
         } catch (SQLException ex) {
 //            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,7 +88,7 @@ public class Employee extends javax.swing.JFrame {
         department = new javax.swing.JComboBox<>();
         sexM = new javax.swing.JRadioButton();
         sexF = new javax.swing.JRadioButton();
-        sexN = new javax.swing.JRadioButton();
+        sexU = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         salary = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -98,6 +99,14 @@ public class Employee extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         employeeCode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        employeeCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                employeeCodeKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                employeeCodeKeyReleased(evt);
+            }
+        });
 
         employeeName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -136,7 +145,6 @@ public class Employee extends javax.swing.JFrame {
         jLabel4.setText("แผนก");
 
         department.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        department.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ผู้จัดการทั่วไป", "ผู้จัดการ", "ผู้จัดการฝ่ายขาย", "ผู้จัดการฝ่ายบุคคล" }));
 
         buttonGroup1.add(sexM);
         sexM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -146,9 +154,9 @@ public class Employee extends javax.swing.JFrame {
         sexF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sexF.setText("หญิง");
 
-        buttonGroup1.add(sexN);
-        sexN.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        sexN.setText("ไม่ระบุ");
+        buttonGroup1.add(sexU);
+        sexU.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sexU.setText("ไม่ระบุ");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("เงินเดือน");
@@ -194,7 +202,7 @@ public class Employee extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(employeeName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
@@ -202,15 +210,13 @@ public class Employee extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(sexF)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(sexN))
+                                .addComponent(sexU))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(salary)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel6)
-                                .addGap(130, 130, 130))
+                                .addComponent(salary, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6))
                             .addComponent(department, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(employeeCode, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(employeeCode, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bNew)
                         .addGap(18, 18, 18)
@@ -221,9 +227,9 @@ public class Employee extends javax.swing.JFrame {
                         .addComponent(bUpdate)
                         .addGap(18, 18, 18)
                         .addComponent(bDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                        .addComponent(bClose)
-                        .addGap(56, 56, 56))))
+                        .addGap(18, 18, 18)
+                        .addComponent(bClose)))
+                .addContainerGap(535, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,7 +247,7 @@ public class Employee extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(sexM)
                     .addComponent(sexF)
-                    .addComponent(sexN))
+                    .addComponent(sexU))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -251,16 +257,16 @@ public class Employee extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(salary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bInsert)
                         .addComponent(bUpdate)
-                        .addComponent(bDelete))
+                        .addComponent(bDelete)
+                        .addComponent(bClose))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bNew)
-                        .addComponent(bShow)
-                        .addComponent(bClose)))
+                        .addComponent(bShow)))
                 .addGap(28, 28, 28))
         );
 
@@ -272,7 +278,7 @@ public class Employee extends javax.swing.JFrame {
             sex = "M";
         } else if (sexF.isSelected()) {
             sex = "F";
-        } else if (sexN.isSelected()) {
+        } else if (sexU.isSelected()) {
             sex = "U";
         }
     }
@@ -283,15 +289,19 @@ public class Employee extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bCloseActionPerformed
 
-    private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
+    private void bNew() {
         employeeCode.setText(null);
         employeeName.setText(null);
         sexM.setSelected(true);
         sexF.setSelected(false);
-        sexN.setSelected(false);
+        sexU.setSelected(false);
         department.setSelectedIndex(0);
         salary.setText(null);
         employeeCode.requestFocus();
+    }
+
+    private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
+        bNew();
     }//GEN-LAST:event_bNewActionPerformed
 
     private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
@@ -300,8 +310,8 @@ public class Employee extends javax.swing.JFrame {
             sex1 = sexM.getText();
         } else if (sexF.isSelected()) {
             sex1 = sexF.getText();
-        } else if (sexN.isSelected()) {
-            sex1 = sexN.getText();
+        } else if (sexU.isSelected()) {
+            sex1 = sexU.getText();
         }
         String ms = employeeCode.getText() + "\n" + employeeName.getText() + "\n" + sex1 + "\n" + department.getSelectedItem() + "\n" + salary.getText();
         JOptionPane.showMessageDialog(this, ms);
@@ -319,22 +329,33 @@ public class Employee extends javax.swing.JFrame {
 
     private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
         sexSelect();
-        String sql = "update employee set employeeName = '" + employeeName.getText() + "', sex = '" + sex + "' ,departmentCode = '" + department.getSelectedIndex() + 1 + "',salary = '" + salary.getText() + "' where employeeCode = '" + employeeCode.getText() + "'";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        if (JOptionPane.showConfirmDialog(this, "เปลี่ยนแปลงหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            String sql = "update employee set employeeName = '" + employeeName.getText() + "', sex = '" + sex + "' ,departmentCode = '" + department.getSelectedIndex() + 1 + "',salary = '" + salary.getText() + "' where employeeCode = '" + employeeCode.getText() + "'";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_bUpdateActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        String sql = "delete from employee where employeeCode = '" + employeeCode.getText() + "'";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        if (JOptionPane.showConfirmDialog(this, "ลบหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            String sql = "delete from employee where employeeCode = '" + employeeCode.getText() + "'";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            bNew();
         }
     }//GEN-LAST:event_bDeleteActionPerformed
+    private void employeeCodeKeyPressed(java.awt.event.KeyEvent evt) {
+        
+    }
+    private void employeeCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employeeCodeKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_employeeCodeKeyReleased
 
     /**
      * @param args the command line arguments
@@ -391,6 +412,6 @@ public class Employee extends javax.swing.JFrame {
     private javax.swing.JTextField salary;
     private javax.swing.JRadioButton sexF;
     private javax.swing.JRadioButton sexM;
-    private javax.swing.JRadioButton sexN;
+    private javax.swing.JRadioButton sexU;
     // End of variables declaration//GEN-END:variables
 }

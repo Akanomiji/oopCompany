@@ -41,7 +41,7 @@ public class Customer extends javax.swing.JFrame {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop2567", "root", "12345678");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/oop2567", "root", "12345678");
             statement = conn.createStatement();
         } catch (SQLException ex) {
 //            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
@@ -218,16 +218,18 @@ public class Customer extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_bCloseActionPerformed
-
-    private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
+    private void bNew(){
         customerCode.setText(null);
         customerName.setText(null);
         address.setText(null);
         customerCode.requestFocus();
+    }
+    private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
+        bNew();
     }//GEN-LAST:event_bNewActionPerformed
 
     private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
-        String sql = "insert into customer(customerCode,customerName,address) values ('"+ customerCode.getText() +"','"+ customerName.getText() +"','"+ address.getText() +"')";
+        String sql = "insert into customer(customerCode,customerName,address) values ('" + customerCode.getText() + "','" + customerName.getText() + "','" + address.getText() + "')";
         try {
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
@@ -236,20 +238,25 @@ public class Customer extends javax.swing.JFrame {
     }//GEN-LAST:event_bInsertActionPerformed
 
     private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
-        String sql = "update customer set customerName = '"+ customerName.getText() +"', address = '"+ address.getText() +"' where customerCode = '"+ customerCode.getText() +"'";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        if (JOptionPane.showConfirmDialog(this, "เปลี่ยนแปลงหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            String sql = "update customer set customerName = '" + customerName.getText() + "', address = '" + address.getText() + "' where customerCode = '" + customerCode.getText() + "'";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_bUpdateActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        String sql = "delete from customer where customerCode = '"+ customerCode.getText() +"'";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        if (JOptionPane.showConfirmDialog(this, "ลบหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            String sql = "delete from customer where customerCode = '" + customerCode.getText() + "'";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            bNew();
         }
     }//GEN-LAST:event_bDeleteActionPerformed
 

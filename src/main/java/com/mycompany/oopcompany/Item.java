@@ -4,9 +4,11 @@
  */
 package com.mycompany.oopcompany;
 
+import java.awt.Event;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -25,6 +27,8 @@ public class Item extends javax.swing.JFrame {
      */
     Connection conn;
     Statement statement;
+    String selectedItem;
+    String itemtypeCode;
 
     public Item() {
         setFont();
@@ -41,7 +45,7 @@ public class Item extends javax.swing.JFrame {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop2567", "root", "12345678");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/oop2567", "root", "12345678");
             statement = conn.createStatement();
         } catch (SQLException ex) {
 //            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,6 +116,11 @@ public class Item extends javax.swing.JFrame {
         jLabel4.setText("จำนวน");
 
         itemCode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        itemCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                itemCodeKeyPressed(evt);
+            }
+        });
 
         itemName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -233,14 +242,16 @@ public class Item extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
+    private void bNew() {
         itemCode.setText(null);
         itemName.setText(null);
         price.setText(null);
         qty.setText(null);
         amount.setText(null);
         itemCode.requestFocus();
+    }
+    private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
+        bNew();
     }//GEN-LAST:event_bNewActionPerformed
 
     private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
@@ -255,7 +266,7 @@ public class Item extends javax.swing.JFrame {
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
-        String sql = "insert into item(itemCode,itemName,typeCode,price,qty) values ('"+ itemCode.getText() +"','"+ itemName.getText() +"','01','"+ price.getText() +"','"+ qty.getText() +"')";
+        String sql = "insert into item(itemCode,itemName,typeCode,price,qty) values ('" + itemCode.getText() + "','" + itemName.getText() + "','01','" + price.getText() + "','" + qty.getText() + "')";
         try {
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
@@ -264,22 +275,102 @@ public class Item extends javax.swing.JFrame {
     }//GEN-LAST:event_bInsertActionPerformed
 
     private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
-        String sql = "update item set itemName = '"+ itemName.getText() +"' , price = '"+ price.getText() +"' , qty = '"+ qty.getText() +"' where itemCode = '"+ itemCode.getText() +"'";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        if (JOptionPane.showConfirmDialog(this, "เปลี่ยนแปลงหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            String sql = "update item set itemName = '" + itemName.getText() + "' , price = '" + price.getText() + "' , qty = '" + qty.getText() + "' where itemCode = '" + itemCode.getText() + "'";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_bUpdateActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        String sql = "delete from item where itemCode = '"+ itemCode.getText() +"'";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        if (JOptionPane.showConfirmDialog(this, "ลบหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            String sql = "delete from item where itemCode = '" + itemCode.getText() + "'";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            bNew();
         }
     }//GEN-LAST:event_bDeleteActionPerformed
+
+    public void calculate() {
+        try {
+            double value1 = Double.parseDouble(price.getText());
+            double value2 = Double.parseDouble(qty.getText());
+            int result = (int) value1 * (int) value2; // คำนวณผลรวม
+            amount.setText(String.valueOf(result));
+        } catch (NumberFormatException e) {
+        }
+    }
+
+    public void itemtypeSelect() {
+        String sql = "select typeCode, typeName from itemtype";
+        try {
+            // รัน SQL Query
+            ResultSet rs = statement.executeQuery(sql);
+
+            // ลูปดึงข้อมูลจาก ResultSet
+            while (rs.next()) {
+                // ดึงค่าของ departmentName
+                String itemtypeCode1 = rs.getString("typeCode");
+                String typeName = rs.getString("typeName");
+
+                // เพิ่ม departmentName ลงใน JComboBox
+                itemType.addItem(itemtypeCode1 + " " + typeName);
+            }
+            rs.close(); // ปิด ResultSet
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // แสดงข้อผิดพลาดถ้ามีการเกิด SQLException
+        }
+    }
+
+    public void itemtypeCode() {
+        selectedItem = (String) itemType.getSelectedItem();
+        itemtypeCode = selectedItem.split(" ")[0];
+    }
+
+    private void itemCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_itemCodeKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == Event.ENTER) {
+            String sql = "select itemName,typeCode,price,qty from item where itemCode = '" + itemCode.getText() + "'";
+            itemName.setText(null);
+            itemType.setSelectedIndex(0);
+            price.setText(null);
+            qty.setText(null);
+            try {
+                ResultSet rs = statement.executeQuery(sql);
+                while (rs.next()) {
+                    itemName.setText(rs.getString("itemName"));
+
+                    String itemtypeCode1 = rs.getString("typeCode");
+                    String typeName = null;
+
+                    for (int i = 0; i < itemType.getItemCount(); i++) {
+                        String item = (String) itemType.getItemAt(i);
+                        if (item.startsWith(itemtypeCode1 + " ")) {
+                            itemType.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+//                    JOptionPane.showMessageDialog(this, rs.getString("typeCode"));
+
+                    price.setText(rs.getString("price"));
+                    qty.setText(rs.getString("qty"));
+                    calculate();
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                itemName.setText(null);
+                itemType.setSelectedIndex(0);
+                price.setText(null);
+                qty.setText(null);
+            }
+        }
+    }//GEN-LAST:event_itemCodeKeyPressed
 
     /**
      * @param args the command line arguments
@@ -315,7 +406,9 @@ public class Item extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    
+    private javax.swing.JComboBox<String> itemType;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField amount;
     private javax.swing.JButton bClose;
