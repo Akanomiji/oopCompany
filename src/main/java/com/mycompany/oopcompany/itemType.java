@@ -4,21 +4,24 @@
  */
 package com.mycompany.oopcompany;
 
+import java.awt.Event;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author WONG-PC
  */
-public class itemType extends javax.swing.JFrame {
+public class ItemType extends javax.swing.JFrame {
 
     /**
      * Creates new form ItemType
@@ -26,10 +29,11 @@ public class itemType extends javax.swing.JFrame {
     Connection conn;
     Statement statement;
 
-    public itemType() {
+    public ItemType() {
         setFont();
         connectDB();
         initComponents();
+        getItemtypeData();
     }
 
     public void connectDB() {
@@ -41,7 +45,7 @@ public class itemType extends javax.swing.JFrame {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/oop2567", "root", "12345678");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop2567", "root", "12345678");
             statement = conn.createStatement();
         } catch (SQLException ex) {
 //            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,6 +86,8 @@ public class itemType extends javax.swing.JFrame {
         bInsert = new javax.swing.JButton();
         bUpdate = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +109,11 @@ public class itemType extends javax.swing.JFrame {
         });
 
         typeCode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        typeCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                typeCodeKeyPressed(evt);
+            }
+        });
 
         typeName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -138,6 +149,23 @@ public class itemType extends javax.swing.JFrame {
             }
         });
 
+        table1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        table1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Code", "Name"
+            }
+        ));
+        table1.setEnabled(false);
+        jScrollPane1.setViewportView(table1);
+        if (table1.getColumnModel().getColumnCount() > 0) {
+            table1.getColumnModel().getColumn(0).setMinWidth(100);
+            table1.getColumnModel().getColumn(0).setPreferredWidth(100);
+            table1.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,29 +173,33 @@ public class itemType extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(25, 25, 25)
-                            .addComponent(typeName, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(bNew)
-                            .addGap(18, 18, 18)
-                            .addComponent(bShow)
-                            .addGap(18, 18, 18)
-                            .addComponent(bInsert)
-                            .addGap(18, 18, 18)
-                            .addComponent(bUpdate)
-                            .addGap(18, 18, 18)
-                            .addComponent(bDelete)
-                            .addGap(32, 32, 32)
-                            .addComponent(bClose)
-                            .addGap(39, 39, 39)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(typeCode, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(typeCode, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(39, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bNew)
+                                .addGap(18, 18, 18)
+                                .addComponent(bShow)
+                                .addGap(18, 18, 18)
+                                .addComponent(bInsert)
+                                .addGap(18, 18, 18)
+                                .addComponent(bUpdate)
+                                .addGap(18, 18, 18)
+                                .addComponent(bDelete)
+                                .addGap(32, 32, 32)
+                                .addComponent(bClose))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(25, 25, 25)
+                                .addComponent(typeName, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +212,9 @@ public class itemType extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(typeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bInsert)
@@ -190,18 +224,43 @@ public class itemType extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bNew)
                         .addComponent(bShow)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void bNew(){
+
+    public void bNew() {
         typeCode.setText(null);
         typeName.setText(null);
         typeCode.requestFocus();
     }
+
+    private void getItemtypeData() {
+        //((DefaultTableModel) table1.getModel()).setRowCount(0);
+        String sql = "select * from itemtype";
+        typeName.setText(null);
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                Object[] rowData = {rs.getString(1), rs.getString(2)};
+                ((DefaultTableModel) table1.getModel()).addRow(rowData);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+        }
+    }
+
+    private int searchRowIndex(String code) {
+        for (int i = 0; i < table1.getRowCount(); i++) {
+            if (code.equals(table1.getValueAt(i, 0))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
-        
         bNew();
     }//GEN-LAST:event_bNewActionPerformed
 
@@ -217,36 +276,75 @@ public class itemType extends javax.swing.JFrame {
     }//GEN-LAST:event_bCloseActionPerformed
 
     private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
-        String sql = "insert into itemtype(typeCode,typeName) values ('" + typeCode.getText() + "','" + typeName.getText() + "')";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+        if ("".equals(typeCode.getText())) {
+            JOptionPane.showMessageDialog(this, "Insert ไม่สำเร็จ");
+        } else {
+            String sql = "insert into itemtype(typeCode,typeName) values ('" + typeCode.getText() + "','" + typeName.getText() + "')";
+            try {
+                statement.executeUpdate(sql);
+                Object[] rowData = {typeCode.getText(), typeName.getText()};
+                ((DefaultTableModel) table1.getModel()).addRow(rowData);
+                JOptionPane.showMessageDialog(this, "Insert สำเร็จ");
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Insert ไม่สำเร็จ");
+            }
         }
     }//GEN-LAST:event_bInsertActionPerformed
 
     private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
-        if (JOptionPane.showConfirmDialog(this, "เปลี่ยนแปลงหรือไม่ ?", "ยืนยัน", 0) == 0) {
+        if ("".equals(typeCode.getText())) {
+            JOptionPane.showMessageDialog(this, "Update ไม่สำเร็จ");
+        } else {
             String sql = "update itemtype set typeName = '" + typeName.getText() + "' where typeCode = '" + typeCode.getText() + "'";
+            int row = searchRowIndex(typeCode.getText());
             try {
                 statement.executeUpdate(sql);
+                ((DefaultTableModel) table1.getModel()).setValueAt(typeName.getText(), row, 1);
+                JOptionPane.showMessageDialog(this, "Update สำเร็จ");
             } catch (SQLException ex) {
                 Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Update ไม่สำเร็จ");
             }
         }
     }//GEN-LAST:event_bUpdateActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
         if (JOptionPane.showConfirmDialog(this, "ลบหรือไม่ ?", "ยืนยัน", 0) == 0) {
-            String sql = "delete from itemtype where typeCode = '" + typeCode.getText() + "'";
-            try {
-                statement.executeUpdate(sql);
-            } catch (SQLException ex) {
-                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+            if ("".equals(typeCode.getText())) {
+                JOptionPane.showMessageDialog(this, "Delete ไม่สำเร็จ");
+            } else {
+                String sql = "delete from itemtype where typeCode = '" + typeCode.getText() + "'";
+                int row = searchRowIndex(typeCode.getText());
+                try {
+                    statement.executeUpdate(sql);
+                    ((DefaultTableModel) table1.getModel()).removeRow(row);
+                    JOptionPane.showMessageDialog(this, "Delete สำเร็จ");
+                } catch (SQLException ex) {
+                    Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "Delete ไม่สำเร็จ");
+                }
             }
-            bNew();
         }
     }//GEN-LAST:event_bDeleteActionPerformed
+
+    private void typeCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_typeCodeKeyPressed
+        if (evt.getKeyCode() == Event.ENTER) {
+            String sql = "select typeName from itemtype where typeCode = '" + typeCode.getText() + "'";
+            typeName.setText(null);
+            try {
+                ResultSet rs = statement.executeQuery(sql);
+                while (rs.next()) {
+//                    departmentName.setText(rs.getString(1));
+                    typeName.setText(rs.getString("typeName"));
+                }
+                rs.close();
+
+            } catch (SQLException ex) {
+                typeName.setText(null);
+            }
+        }
+    }//GEN-LAST:event_typeCodeKeyPressed
 
     /**
      * @param args the command line arguments
@@ -265,20 +363,20 @@ public class itemType extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(itemType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ItemType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(itemType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ItemType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(itemType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ItemType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(itemType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ItemType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new itemType().setVisible(true);
+                new ItemType().setVisible(true);
             }
         });
     }
@@ -292,6 +390,8 @@ public class itemType extends javax.swing.JFrame {
     private javax.swing.JButton bUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table1;
     private javax.swing.JTextField typeCode;
     private javax.swing.JTextField typeName;
     // End of variables declaration//GEN-END:variables
