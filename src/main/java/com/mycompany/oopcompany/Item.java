@@ -48,7 +48,7 @@ public class Item extends javax.swing.JFrame {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop2567", "root", "12345678");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/oop2567", "root", "12345678");
             statement = conn.createStatement();
         } catch (SQLException ex) {
 //            Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
