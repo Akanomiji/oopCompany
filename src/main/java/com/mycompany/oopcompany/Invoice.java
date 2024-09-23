@@ -4,6 +4,7 @@
  */
 package com.mycompany.oopcompany;
 
+import java.awt.Event;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -85,6 +86,11 @@ public class Invoice extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bClose.setText("Close");
+        bClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCloseActionPerformed(evt);
+            }
+        });
 
         bInsert.setText("Insert");
         bInsert.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +160,16 @@ public class Invoice extends javax.swing.JFrame {
         });
 
         invoiceNo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        invoiceNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                invoiceNoActionPerformed(evt);
+            }
+        });
+        invoiceNo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                invoiceNoKeyPressed(evt);
+            }
+        });
 
         employeeCode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -302,26 +318,6 @@ public class Invoice extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bNewItem)
-                        .addGap(18, 18, 18)
-                        .addComponent(bAddItem)
-                        .addGap(18, 18, 18)
-                        .addComponent(bUpdateItem)
-                        .addGap(18, 18, 18)
-                        .addComponent(bDeleteItem))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bNew)
-                        .addGap(18, 18, 18)
-                        .addComponent(bShow)
-                        .addGap(18, 18, 18)
-                        .addComponent(bInsert)
-                        .addGap(18, 18, 18)
-                        .addComponent(bUpdate)
-                        .addGap(18, 18, 18)
-                        .addComponent(bDelete)
-                        .addGap(32, 32, 32)
-                        .addComponent(bClose))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -350,7 +346,29 @@ public class Invoice extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(28, 28, 28)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(bNewItem)
+                        .addGap(18, 18, 18)
+                        .addComponent(bAddItem)
+                        .addGap(18, 18, 18)
+                        .addComponent(bUpdateItem)
+                        .addGap(18, 18, 18)
+                        .addComponent(bDeleteItem))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(bNew)
+                        .addGap(18, 18, 18)
+                        .addComponent(bShow)
+                        .addGap(18, 18, 18)
+                        .addComponent(bInsert)
+                        .addGap(18, 18, 18)
+                        .addComponent(bUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(bDelete)
+                        .addGap(32, 32, 32)
+                        .addComponent(bClose)))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -378,15 +396,15 @@ public class Invoice extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bNewItem)
                     .addComponent(bAddItem)
                     .addComponent(bUpdateItem)
                     .addComponent(bDeleteItem))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bInsert)
@@ -396,7 +414,7 @@ public class Invoice extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bNew)
                         .addComponent(bShow)))
-                .addGap(24, 24, 24))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -618,6 +636,46 @@ public class Invoice extends javax.swing.JFrame {
     private void qtyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyKeyReleased
         calculate();
     }//GEN-LAST:event_qtyKeyReleased
+
+    private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
+        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(this, "ปิดหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_bCloseActionPerformed
+
+    private void invoiceNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceNoActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_invoiceNoActionPerformed
+
+    private void invoiceNoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_invoiceNoKeyPressed
+        // TODO add your handling code here:
+        
+        if (evt.getKeyCode() == Event.ENTER) {
+            String sql = "select invoiceDate,invoice.customerCode,invoice.customerName,employeeCode from invoice join customer on customer.customerCode=invoice.customerCode,customer.customerName=invoice.customerName where invoiceNo = '" + invoiceNo.getText() + "'";
+
+            invoiceDate.setText(null);
+            try {
+                ResultSet rs = dbConnection.statement.executeQuery(sql);
+                while (rs.next()) {
+//                    departmentName.setText(rs.getString(1));
+                    invoiceDate.setText(rs.getString("invoiceDate"));
+                    customerCode.setText(rs.getString("customerCode"));
+                    
+                    employeeCode.setText(rs.getString("employeeCode"));
+                    
+                }
+                rs.close();
+
+            } catch (SQLException ex) {
+                invoiceDate.setText(null);
+                //employeeCode.setText(null);
+                //customerCode.setText(null);
+            }
+
+        }
+    }//GEN-LAST:event_invoiceNoKeyPressed
 
     /**
      * @param args the command line arguments
