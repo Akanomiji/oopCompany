@@ -28,6 +28,7 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
         jMenu1 = new javax.swing.JMenu();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
@@ -53,6 +54,75 @@ public class Menu extends javax.swing.JFrame {
         jMenu3.setText("Edit");
         jMenuBar1.add(jMenu3);
 
+=======
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        item = new javax.swing.JMenuItem();
+        customer = new javax.swing.JMenuItem();
+        department = new javax.swing.JMenuItem();
+        itemtype = new javax.swing.JMenuItem();
+        employee = new javax.swing.JMenuItem();
+        invoice = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jMenu1.setText("File");
+
+        item.setText("Item");
+        item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(item);
+
+        customer.setText("Customer");
+        customer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customerActionPerformed(evt);
+            }
+        });
+        jMenu1.add(customer);
+
+        department.setText("Department");
+        department.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                departmentActionPerformed(evt);
+            }
+        });
+        jMenu1.add(department);
+
+        itemtype.setText("ItemType");
+        itemtype.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemtypeActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemtype);
+
+        employee.setText("Employee");
+        employee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                employeeActionPerformed(evt);
+            }
+        });
+        jMenu1.add(employee);
+
+        invoice.setText("Invoice");
+        invoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                invoiceActionPerformed(evt);
+            }
+        });
+        jMenu1.add(invoice);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+>>>>>>> f9925ac3bb7a98a29d5ce51c7fb17d3985ad29ef
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -69,11 +139,62 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< HEAD
     private void McustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_McustomerActionPerformed
         // TODO add your handling code here:
         Customer JFrame = new Customer();
         JFrame.show();
     }//GEN-LAST:event_McustomerActionPerformed
+=======
+    private void itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemActionPerformed
+
+        
+        Item item = new Item();
+        item.setVisible(true);
+        item.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         
+        /*
+        Item item = new Item();
+        item.show();
+         */
+        
+    }//GEN-LAST:event_itemActionPerformed
+
+    private void customerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerActionPerformed
+        // TODO add your handling code here:
+        Customer customer = new Customer();
+        customer.setVisible(true);
+        customer.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_customerActionPerformed
+
+    private void departmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departmentActionPerformed
+        // TODO add your handling code here:
+        Department department = new Department();
+        department.setVisible(true);
+        department.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_departmentActionPerformed
+
+    private void itemtypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemtypeActionPerformed
+        // TODO add your handling code here:
+        ItemType itemtype = new ItemType();
+        itemtype.setVisible(true);
+        itemtype.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_itemtypeActionPerformed
+
+    private void employeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeActionPerformed
+        // TODO add your handling code here:
+        Employee employee = new Employee();
+        employee.setVisible(true);
+        employee.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_employeeActionPerformed
+
+    private void invoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceActionPerformed
+        // TODO add your handling code here:
+        Invoice invoice = new Invoice();
+        invoice.setVisible(true);
+        invoice.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_invoiceActionPerformed
+>>>>>>> f9925ac3bb7a98a29d5ce51c7fb17d3985ad29ef
 
     /**
      * @param args the command line arguments
@@ -111,10 +232,21 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+<<<<<<< HEAD
     private javax.swing.JMenuItem Mcustomer;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+=======
+    private javax.swing.JMenuItem customer;
+    private javax.swing.JMenuItem department;
+    private javax.swing.JMenuItem employee;
+    private javax.swing.JMenuItem invoice;
+    private javax.swing.JMenuItem item;
+    private javax.swing.JMenuItem itemtype;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+>>>>>>> f9925ac3bb7a98a29d5ce51c7fb17d3985ad29ef
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
