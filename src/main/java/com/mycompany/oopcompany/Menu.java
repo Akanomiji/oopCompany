@@ -28,33 +28,6 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-<<<<<<< HEAD
-        jMenu1 = new javax.swing.JMenu();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        Mcustomer = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-
-        jMenu1.setText("jMenu1");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jMenu2.setText("List");
-
-        Mcustomer.setText("Customer");
-        Mcustomer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                McustomerActionPerformed(evt);
-            }
-        });
-        jMenu2.add(Mcustomer);
-
-        jMenuBar1.add(jMenu2);
-
-        jMenu3.setText("Edit");
-        jMenuBar1.add(jMenu3);
-
-=======
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         item = new javax.swing.JMenuItem();
@@ -122,7 +95,6 @@ public class Menu extends javax.swing.JFrame {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
->>>>>>> f9925ac3bb7a98a29d5ce51c7fb17d3985ad29ef
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -139,13 +111,6 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-<<<<<<< HEAD
-    private void McustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_McustomerActionPerformed
-        // TODO add your handling code here:
-        Customer JFrame = new Customer();
-        JFrame.show();
-    }//GEN-LAST:event_McustomerActionPerformed
-=======
     private void itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemActionPerformed
 
         
@@ -194,7 +159,6 @@ public class Menu extends javax.swing.JFrame {
         invoice.setVisible(true);
         invoice.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_invoiceActionPerformed
->>>>>>> f9925ac3bb7a98a29d5ce51c7fb17d3985ad29ef
 
     /**
      * @param args the command line arguments
@@ -232,12 +196,6 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-<<<<<<< HEAD
-    private javax.swing.JMenuItem Mcustomer;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-=======
     private javax.swing.JMenuItem customer;
     private javax.swing.JMenuItem department;
     private javax.swing.JMenuItem employee;
@@ -246,7 +204,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemtype;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
->>>>>>> f9925ac3bb7a98a29d5ce51c7fb17d3985ad29ef
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
