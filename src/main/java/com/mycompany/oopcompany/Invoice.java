@@ -30,7 +30,7 @@ public class Invoice extends javax.swing.JFrame {
      */
     DatabaseConnection dbConnection = new DatabaseConnection();
     SetFont setFontMs = new SetFont();
-    String lcustomerName, lemployeeName, litemName, lstock;
+    String cName, eName, litemName, lstock;
 
     public Invoice() {
         setFontMs.setFont();
@@ -95,6 +95,11 @@ public class Invoice extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bClose.setText("Close");
+        bClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCloseActionPerformed(evt);
+            }
+        });
 
         bInsert.setText("Insert");
         bInsert.addActionListener(new java.awt.event.ActionListener() {
@@ -132,6 +137,11 @@ public class Invoice extends javax.swing.JFrame {
         });
 
         customerCode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        customerCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                customerCodeKeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("เลขที่");
@@ -370,7 +380,7 @@ public class Invoice extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
                         .addComponent(invoiceDate, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(119, 119, 119))
+                .addGap(139, 139, 139))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -430,11 +440,12 @@ public class Invoice extends javax.swing.JFrame {
             // ลูปดึงข้อมูลจาก ResultSet
             while (rs.next()) {
                 // ดึงค่าของ departmentName
-                String lcustomerCode = rs.getString("customerCode");
-                String lcustomerName = rs.getString("customerName");
+
+                String cCode = rs.getString("customerCode");
+                String cName = rs.getString("customerName");
 
                 // เพิ่ม departmentName ลงใน JComboBox
-                customerCodeList.addItem(lcustomerCode + " " + lcustomerName);
+                customerCodeList.addItem(cCode + " " + cName);
             }
             rs.close(); // ปิด ResultSet
         } catch (SQLException ex) {
@@ -451,11 +462,11 @@ public class Invoice extends javax.swing.JFrame {
             // ลูปดึงข้อมูลจาก ResultSet
             while (rs.next()) {
                 // ดึงค่าของ departmentName
-                String lemployeeCodeList = rs.getString("employeeCode");
-                String lemployeeNameList = rs.getString("employeeName");
+                String eCodeList = rs.getString("employeeCode");
+                String eNameList = rs.getString("employeeName");
 
                 // เพิ่ม departmentName ลงใน JComboBox
-                employeeCodeList.addItem(lemployeeCodeList + " " + lemployeeNameList);
+                employeeCodeList.addItem(eCodeList + " " + eNameList);
             }
             rs.close(); // ปิด ResultSet
         } catch (SQLException ex) {
@@ -531,15 +542,60 @@ public class Invoice extends javax.swing.JFrame {
     }//GEN-LAST:event_bInsertActionPerformed
 
     private void bUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpdateActionPerformed
+        if ("".equals(invoiceNo.getText())) {
+            JOptionPane.showMessageDialog(this, "Update ไม่สำเร็จ");
+        } else {
 
+            String sql = "update invoice set invoiceDate= '" + invoiceDate.getText() + "',customerCode = '" + customerCode.getText() + "',employeeCode = '" + employeeCode.getText() + "'where invoiceNo = '" + invoiceNo.getText() + "'";
+            //int row = searchRowIndex(invoiceNo.getText());
+            try {
+                dbConnection.statement.executeUpdate(sql);
+                //((DefaultTableModel) table.getModel()).setValueAt(invoiceDate.getText(), row, 1);
+
+                JOptionPane.showMessageDialog(this, "Update สำเร็จ");
+            } catch (SQLException ex) {
+                Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Update ไม่สำเร็จ");
+            }
+        }
     }//GEN-LAST:event_bUpdateActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-
+        if (JOptionPane.showConfirmDialog(this, "ลบหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            if ("".equals(invoiceNo.getText())) {
+                JOptionPane.showMessageDialog(this, "Delete ไม่สำเร็จ");
+            } else {
+                String sql = "delete from invoice where invoiceNo = '" + invoiceNo.getText() + "'";
+                int row = searchRowIndex(invoiceNo.getText());
+                try {
+                    dbConnection.statement.executeUpdate(sql);
+                    ((DefaultTableModel) table.getModel()).removeRow(row);
+                    JOptionPane.showMessageDialog(this, "Delete สำเร็จ");
+                } catch (SQLException ex) {
+                    Logger.getLogger(Department.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "Delete ไม่สำเร็จ");
+                }
+                bNew();
+            }
+        }
     }//GEN-LAST:event_bDeleteActionPerformed
 
+    private void bNew() {
+        invoiceNo.setText(null);
+        invoiceDate.setText(null);
+        customerCode.setText(null);
+        customerCodeList.setToolTipText(null);
+        employeeCode.setText(null);
+        employeeCodeList.setToolTipText(null);
+        itemCode.setText(null);
+        itemCodeList.setToolTipText(null);
+        stock.setText(null);
+        price.setText(null);
+        qty.setText(null);
+        amount.setText(null);
+    }
     private void bNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewActionPerformed
-
+        bNew();
     }//GEN-LAST:event_bNewActionPerformed
 
     private void bShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowActionPerformed
@@ -547,11 +603,18 @@ public class Invoice extends javax.swing.JFrame {
     }//GEN-LAST:event_bShowActionPerformed
 
     private void bNewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewItemActionPerformed
-
+        itemCode.setText(null);
+        itemCodeList.setToolTipText(null);
+        stock.setText(null);
+        price.setText(null);
+        qty.setText(null);
+        amount.setText(null);
     }//GEN-LAST:event_bNewItemActionPerformed
 
     private void bAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddItemActionPerformed
         int row = searchRowIndex(itemCode.getText());
+        //int stcokV = Integer.parseInt(stock.getText());
+        //int qtyV = Integer.parseInt(qty.getText());
         if (row == -1) {
             Object[] rowData = {itemCode.getText(), litemName, price.getText(), qty.getText(), amount.getText()};
             ((DefaultTableModel) table.getModel()).addRow(rowData);
@@ -590,13 +653,13 @@ public class Invoice extends javax.swing.JFrame {
     private void customerCodeListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerCodeListActionPerformed
         String customerCodeL = (String) customerCodeList.getSelectedItem();
         customerCode.setText(customerCodeL.split(" ")[0]);
-        lcustomerName = customerCodeL.split(" ")[1];
+        cName = customerCodeL.split(" ")[1];
     }//GEN-LAST:event_customerCodeListActionPerformed
 
     private void employeeCodeListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeCodeListActionPerformed
         String employeeCodeL = (String) employeeCodeList.getSelectedItem();
         employeeCode.setText(employeeCodeL.split(" ")[0]);
-        lemployeeName = employeeCodeL.split(" ")[1];
+        eName = employeeCodeL.split(" ")[1];
     }//GEN-LAST:event_employeeCodeListActionPerformed
 
     private void itemCodeListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCodeListActionPerformed
@@ -635,29 +698,35 @@ public class Invoice extends javax.swing.JFrame {
                 while (rs.next()) {
                     invoiceDate.setText(rs.getString("invoiceDate"));
                     customerCode.setText(rs.getString("invoice.customerCode"));
-                    
-                    String customerCode1 = rs.getString("invoice.customerCode");
 
-                    for (int i = 0; i < customerCodeList.getItemCount(); i++) {
-                        String item = (String) customerCodeList.getItemAt(i);
-                        if (item.startsWith(customerCode1 + " ")) {
-                            customerCodeList.setSelectedIndex(i);
-                            break;
+                    String customerCode1 = rs.getString("invoice.customerCode");
+                    if (customerCode1 != null) {
+
+                        String formattedId = String.format("%01d", Integer.parseInt(customerCode1));
+                        for (int i = 0; i < customerCodeList.getItemCount(); i++) {
+
+                            String item = (String) customerCodeList.getItemAt(i);
+                            if (item.startsWith(formattedId + " ")) {
+                                customerCodeList.setSelectedIndex(i);
+                                break;
+                            }
                         }
                     }
-                    
+
                     employeeCode.setText(rs.getString("invoice.employeeCode"));
-                    
+
                     String employeeCode1 = rs.getString("invoice.employeeCode");
 
                     for (int i = 0; i < employeeCodeList.getItemCount(); i++) {
+
                         String item = (String) employeeCodeList.getItemAt(i);
+
                         if (item.startsWith(employeeCode1 + " ")) {
                             employeeCodeList.setSelectedIndex(i);
                             break;
                         }
                     }
-                    
+
                 }
                 rs.close();
 
@@ -667,6 +736,45 @@ public class Invoice extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_invoiceNoKeyPressed
+
+    private void bCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCloseActionPerformed
+        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(this, "ปิดหรือไม่ ?", "ยืนยัน", 0) == 0) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_bCloseActionPerformed
+
+    private void customerCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerCodeKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == Event.ENTER) {
+            String sql = "select invoice.customerCode,customer.customerName join customer on customer.customerCode = invoice.customerCode from invoice where invoiceNo = '" + invoiceNo.getText() + "'";
+//            customerName.setText(null);
+//            address.setText(null);
+            try {
+                ResultSet rs = dbConnection.statement.executeQuery(sql);
+                while (rs.next()) {
+                    invoiceDate.setText(rs.getString("invoiceDate"));
+                    customerCode.setText(rs.getString("invoice.customerCode"));
+
+                    String customerCode1 = rs.getString("invoice.customerCode");
+
+                    for (int i = 0; i < customerCodeList.getItemCount(); i++) {
+                        String item = (String) customerCodeList.getItemAt(i);
+                        if (item.startsWith(customerCode1 + " ")) {
+                            customerCodeList.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+
+                }
+                rs.close();
+
+            } catch (SQLException ex) {
+//                customerName.setText(null);
+//                address.setText(null);
+            }
+        }
+    }//GEN-LAST:event_customerCodeKeyPressed
 
     /**
      * @param args the command line arguments

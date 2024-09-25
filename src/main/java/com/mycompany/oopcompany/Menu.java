@@ -35,8 +35,8 @@ public class Menu extends javax.swing.JFrame {
         department = new javax.swing.JMenuItem();
         itemtype = new javax.swing.JMenuItem();
         employee = new javax.swing.JMenuItem();
-        invoice = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        invoice = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,17 +82,18 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu1.add(employee);
 
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+
         invoice.setText("Invoice");
         invoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 invoiceActionPerformed(evt);
             }
         });
-        jMenu1.add(invoice);
+        jMenu2.add(invoice);
 
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
